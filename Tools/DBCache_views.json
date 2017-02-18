@@ -1,0 +1,13 @@
+{
+  "views": {
+    "BitcoinData": {
+      "map": "function(doc) {if(doc.Type == 'BitcoinData') { emit(doc.Date, doc); }}"
+    },
+    "FXData": {
+      "map": "function(doc) {if(doc.Type == 'FXData') { emit(doc.Date, doc); }}"
+    },
+    "WikipediaData": {
+      "map": "function(doc) {if(doc.Type == 'WikipediaData') { emit(doc.Date, doc); }}"
+    }
+  }
+}
