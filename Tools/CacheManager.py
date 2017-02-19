@@ -33,7 +33,7 @@ class CacheManager(object):
             start_range = end_range
             end_range = end_range + timedelta(days=self.STEP)
             if end_range > self.END_DATE:
-                end_range = END_DATE
+                end_range = self.END_DATE
 
 
 if __name__ == "__main__":
