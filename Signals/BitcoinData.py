@@ -9,7 +9,6 @@ import quandl
 import pandas as pd
 from couchdb.mapping import Document, FloatField, DateField, TextField
 from Tools.DBCache import DBCache
-from datetime import datetime
 
 class BitcoinData(object):
     TICKER = "GDAX/USD"

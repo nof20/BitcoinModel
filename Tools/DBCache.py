@@ -18,7 +18,7 @@ class DBCache(object):
         elif type(datetime) is str:
             return datetime
         else:
-            raise TypeError("Object provided to DBCache.datetime_string() is not datetime.")
+            raise TypeError("Incompatible object provided to DBCache.datetime_string().")
 
     def __init__(self):
         self.config = configparser.ConfigParser()
