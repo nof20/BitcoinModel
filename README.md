@@ -5,11 +5,12 @@ A simple Bitcoin price model, built in Python.
 	- [Quandl](https://www.quandl.com/tools/python) (Bitcoin prices, FX rates, financial indices)
 	- Wikipedia page views
 * Uses standard SciPy stack (Numpy, Pandas, etc.)
-* Caches data locally in [Couchdb](http://pythonhosted.org/CouchDB).
+* Caches data locally in [Couchdb](http://pythonhosted.org/CouchDB)
+* Implements a simple logistic regression model.
 
 To do:
 
-* Implement Logistic Regression model
+* Other classification models
 * Add signals:
 	- News sentiment from the [NY Times](http://developer.nytimes.com/article_search_v2.json#/README)
 	- [Reddit](https://github.com/reddit/reddit/wiki/API) sentiment
