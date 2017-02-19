@@ -11,7 +11,7 @@ To do:
 
 * Implement Logistic Regression model
 * Add signals:
-	- News sentiment
+	- News sentiment from the [NY Times](http://developer.nytimes.com/article_search_v2.json#/README)
 	- [Reddit](https://github.com/reddit/reddit/wiki/API) sentiment
 * Calculate measures:
 	- P/L

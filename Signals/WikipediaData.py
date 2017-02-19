@@ -97,5 +97,6 @@ class WikipediaDoc(Document):
         ll = [row.value for row in rows]
         df = pd.DataFrame(ll)
         df.drop(["Type", "_id", "_rev"], axis=1, inplace=True)
+        df['Date'] = pd.to_datetime(df['Date'])
         df.set_index("Date", inplace=True)
         return df
