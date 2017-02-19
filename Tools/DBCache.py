@@ -12,30 +12,33 @@ class DBCache(object):
     DB_NAME = "bitcoin-model"
 
     @staticmethod
-    def datetime_string(datetime):
-        if type(datetime) is datetime:
-            return datetime.date().isoformat()
-        elif type(datetime) is str:
-            return datetime
+    def datetime_string(dt):
+        if isinstance(dt, datetime):
+            return dt.date().isoformat()
+        elif isinstance(dt, str):
+            return dt
         else:
-            raise TypeError("Incompatible object provided to DBCache.datetime_string().")
+            raise TypeError(
+                "Incompatible object provided to DBCache.datetime_string().")
 
     def __init__(self):
         self.config = configparser.ConfigParser()
         self.config.read("config.ini")
-        url = "http://{}:{}".format(self.config['DB']['hostname'], 
+        url = "http://{}:{}".format(self.config['DB']['hostname'],
                                     self.config['DB']['port'])
         self.db = couchdb.Server(url)[self.DB_NAME]
-        
+
     def save_doc(self, doc):
         doc_id = uuid4()
         self.db[doc_id] = doc
-        
+
     def save_doc_list(self, list):
         for doc in list:
-            doc.store(self.db)
-            
+            try:
+                doc.store(self.db)
+            except Exception:
+                print("Caught exception storing doc {}".format(doc))
+                raise Exception
+
     def get_view(self, viewname):
         return self.db.view(viewname)
-
-

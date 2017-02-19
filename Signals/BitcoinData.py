@@ -7,8 +7,10 @@ import configparser
 import datetime
 import quandl
 import pandas as pd
+import numpy as np
 from couchdb.mapping import Document, FloatField, DateField, TextField
 from Tools.DBCache import DBCache
+
 
 class BitcoinData(object):
     TICKER = "GDAX/USD"
@@ -17,24 +19,26 @@ class BitcoinData(object):
         self.config = configparser.ConfigParser()
         self.config.read("config.ini")
         self.db = DBCache()
-       
+
     def get(self, start_date, end_date, cached=True):
         if cached:
             df = self.get_db(start_date, end_date)
         else:
             df = self.get_ws(start_date, end_date)
-            doclist = BitcoinDoc.get_doclist_from_df(df)
-            self.db.save_doc_list(doclist)
+            self.set_db(df)
         return df
-       
+
     def get_ws(self, start_date, end_date):
         """Return DataFrame of prices between selected dates."""
         start_date = DBCache.datetime_string(start_date)
         end_date = DBCache.datetime_string(end_date)
-        series = quandl.get(self.TICKER, api_key=self.config['Quandl']['authtoken'],
-                            start_date=start_date, end_date=end_date)                  
+        series = quandl.get(
+            self.TICKER,
+            api_key=self.config['Quandl']['authtoken'],
+            start_date=start_date,
+            end_date=end_date)
         return series
-        
+
     def get_db(self, start_date, end_date):
         view = self.db.get_view("DBCache_views/BitcoinData")
         start_date = DBCache.datetime_string(start_date)
@@ -42,7 +46,13 @@ class BitcoinData(object):
         rows = view[start_date:end_date]
         df = BitcoinDoc.get_df_from_rows(rows)
         return df
-        
+
+    def set_db(self, df):
+        doclist = BitcoinDoc.get_doclist_from_df(df)
+        # TODO: Prevent saving of duplicates
+        self.db.save_doc_list(doclist)
+
+
 class BitcoinDoc(Document):
     """ORM for CouchDB."""
 
@@ -52,7 +62,7 @@ class BitcoinDoc(Document):
     Low = FloatField()
     Volume = FloatField()
     Date = DateField()
-    
+
     @staticmethod
     def get_doclist_from_df(df):
         df2 = df.reset_index()
@@ -60,10 +70,14 @@ class BitcoinDoc(Document):
         for row in df2.itertuples():
             doc = BitcoinDoc()
             doc.Type = "BitcoinData"
-            doc.Open = row.Open
-            doc.High = row.High
-            doc.Low = row.Low
-            doc.Volume = row.Volume
+            if ~np.isnan(row.Open):
+                doc.Open = row.Open
+            if ~np.isnan(row.High):
+                doc.High = row.High
+            if ~np.isnan(row.Low):
+                doc.Low = row.Low
+            if ~np.isnan(row.Volume):
+                doc.Volume = row.Volume
             doc.Date = row.Date.to_pydatetime()
             ll.append(doc)
         return ll
@@ -75,4 +89,3 @@ class BitcoinDoc(Document):
         df.drop(["Type", "_id", "_rev"], axis=1, inplace=True)
         df.set_index("Date", inplace=True)
         return df
-        

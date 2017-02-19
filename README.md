@@ -20,4 +20,6 @@ To do:
 
 Requires Python 3.  Store auth tokens usernames/passwords etc. in `config.ini`.
 
+`$ pip install -r requirements.txt` to install required libraries.
+`$ Tools/init_db.sh` to initialize the CouchDB.
 `$ python -m unittest discover` to run unit tests.
