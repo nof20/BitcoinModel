@@ -12,6 +12,7 @@ class CacheManager(object):
     STEP = 30  # days
 
     def __init__(self):
+        #TODO: Put these in a list to make more compact.
         self.bd = BitcoinData()
         self.fd = FXData()
         self.wd = WikipediaData()

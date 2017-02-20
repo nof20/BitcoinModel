@@ -6,17 +6,17 @@ A simple Bitcoin price model, built in Python.
 	- Wikipedia page views
 * Uses standard SciPy stack (Numpy, Pandas, etc.)
 * Caches data locally in [Couchdb](http://pythonhosted.org/CouchDB)
-* Implements a simple logistic regression model.
+* Implements a simple logistic regression model
+* Calculates annualized profit which would be made.
 
 To do:
 
-* Other classification models
+* Write unit tests for DB, PnL and datetime conversion
+* Other classification models, e.g. Naive Bayes.
 * Add signals:
 	- News sentiment from the [NY Times](http://developer.nytimes.com/article_search_v2.json#/README)
 	- [Reddit](https://github.com/reddit/reddit/wiki/API) sentiment
-* Calculate measures:
-	- P/L
-	- AUC chart
+* Include AUC chart and other model analyses
 * Add [logging](https://docs.python.org/3/howto/logging.html#logging-basic-tutorial)
 
 Requires Python 3.  Store auth tokens usernames/passwords etc. in `config.ini`.

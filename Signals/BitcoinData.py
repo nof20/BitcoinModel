@@ -13,6 +13,7 @@ from Tools.DBCache import DBCache
 
 
 class BitcoinData(object):
+    #TODO: Define an abc (interface) for these common methods.
     TICKER = "GDAX/USD"
 
     def __init__(self):
